@@ -1,0 +1,27 @@
+{
+  "name": "aurelia-snowflake",
+  "description": "An Aurelia 2 client application.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepare": "snowpack",
+    "start": "snowpack dev",
+    "build": "snowpack build",
+    "test": "jest"
+  },
+  "webDependencies": {},
+  "devDependencies": {
+    "aurelia": "dev",
+    "parcel-bundler": "^1.12.4",
+    "snowpack": "^2.0.0-0",
+    "typescript": "^3.8.3",
+    "@aurelia/plugin-conventions": "dev"
+  },
+  "gitHead": "YYY",
+  "dependencies": {
+    "rollup-plugin-html": "^0.2.1"
+  }
+}
