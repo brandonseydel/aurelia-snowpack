@@ -1,5 +1,6 @@
 import { customElement } from 'aurelia';
 export class MyApp {
   public message = 'Hello World MY as DDS';
-  public collection = [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 3 }, { value: 3 }, { value: 3 }];
+  public collection = [{ value: 1 }, { value: 2 },{ value: 1 }, { value: 2 }, { value: 1 }, { value: 2 },{ value: 1 }, { value: 2 }];
+  public counter = 1;
 }
