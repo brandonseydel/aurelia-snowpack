@@ -1,24 +1,29 @@
-
-const fs = require("fs");
-const path = require("path");
-
-const cwd = process.cwd();
-const scripts = {
-  "mount:public": "mount public --to .",
-  "mount:web_modules": "mount web_modules",
-  "mount:src": "mount src --to _dist_",
-  "plugin:ts": "./plugin.js",
-};
-
+/** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
-  scripts,
-  devOptions: {},
-  installOptions: {
-    clean: true,
-    installTypes: true,
+  mount: {
+    public: { url: '/', static: true },
+    src: { url: '/dist' },
   },
-  installOptions: {
-    rollup: {
-    }
-  }
+  plugins: [
+    ['aurelia-plugin', { tsc: 'tsc' }],
+    '@snowpack/plugin-typescript',
+    '@snowpack/plugin-dotenv',
+  ],
+  routes: [
+    /* Enable an SPA Fallback in development: */
+    // {"match": "routes", "src": ".*", "dest": "/index.html"},
+  ],
+  optimize: {
+    /* Example: Bundle your final build: */
+    // "bundle": true,
+  },
+  packageOptions: {
+    /* ... */
+  },
+  devOptions: {
+    /* ... */
+  },
+  buildOptions: {
+    /* ... */
+  },
 };
