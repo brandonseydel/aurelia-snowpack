@@ -19,7 +19,6 @@ const aureliaPlugin = require('@aurelia/plugin-conventions');
 const fs = require("fs");
 var path = require('path');
 const typescript = require("typescript");
-// const tsconfig = JSON.parse(fs.readFileSync('../tsconfig.json', { encoding: "utf-8" }));
 
 module.exports = function (snowpackConfig, { tsconfig }) {
     return {
@@ -29,8 +28,14 @@ module.exports = function (snowpackConfig, { tsconfig }) {
             output: ['.js'],
         },
         async load({ filePath }) {
+            const { sourcemap, sourceMaps } = snowpackConfig.buildOptions;
+            const generateSourceMaps = sourcemap || sourceMaps;
+
             const fileSource = fs.readFileSync(filePath, { encoding: "utf-8" });
             if (!fileSource) { return { result: '' }; }
+
+
+
             const result = aureliaPlugin.preprocess(
                 { path: filePath, contents: fileSource },
                 aureliaPlugin.preprocessOptions({})
@@ -66,7 +71,16 @@ module.exports = function (snowpackConfig, { tsconfig }) {
                 }
             });
 
-            return typescript.transpileModule(sf.getFullText().replace(/@customElement\(__au2ViewDef\)/g, '@customElement({template: __au2ViewDef} )'), tsconfig ?? defaultOptions).outputText;
+            const configuration = tsconfig ?? defaultOptions;
+            configuration.compilerOptions.inlineSourceMap = true;
+            const transpileModule = typescript.transpileModule(sf.getFullText().replace(/@customElement\(__au2ViewDef\)/g, '@customElement({template: __au2ViewDef} )'), configuration);
+            const code = transpileModule.outputText;
+            const matchedSourceMapStrings = code.match(/sourceMappingURL=data:application\/json;base64,(.*)/);
+
+            console.log(transpileModule.outputText);
+            return {
+                '.js': { code: transpileModule.outputText, map: matchedSourceMapStrings ? matchedSourceMapStrings[0] : undefined },
+            };
         }
-    };
+    }
 };

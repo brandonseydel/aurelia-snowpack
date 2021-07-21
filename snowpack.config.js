@@ -5,7 +5,7 @@ module.exports = {
     src: { url: '/dist' },
   },
   plugins: [
-    ['aurelia-plugin', { tsc: 'tsc' }],
+    'aurelia-plugin',
     '@snowpack/plugin-typescript',
     '@snowpack/plugin-dotenv',
   ],
@@ -24,6 +24,7 @@ module.exports = {
     /* ... */
   },
   buildOptions: {
+    sourcemap: false
     /* ... */
   },
 };
